@@ -202,7 +202,7 @@ const QUESTIONS = [
     {
         "type": "blank",
         "title": "巅峰通行证共有多少级？（阿拉伯数字）",
-        "answer": "60",
+        "answer": "100",
         "score": 3
     },
     {
