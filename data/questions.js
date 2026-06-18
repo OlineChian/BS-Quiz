@@ -137,7 +137,7 @@ const QUESTIONS = [
         "type": "multi",
         "title": "以下哪些英雄的普通攻击可以穿透敌人？（多选）",
         "options": ["丝塔诺娃", "阿尔提", "蜜娜", "娜吉亚"],
-        "answer": [0, 3],
+        "answer": [0, 1, 2, 3],
         "score": 3
     },
     {
