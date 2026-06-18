@@ -62,7 +62,7 @@ const QUESTIONS = [
     },
     {
         "type": "blank",
-        "title": "荒野乱斗的英文名称是什么？（带空格）",
+        "title": "荒野乱斗的英文名称是什么？（每个单词首字母大写并带空格）",
         "answer": "Brawl Stars",
         "score": 2
     },
