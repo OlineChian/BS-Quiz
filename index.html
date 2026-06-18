@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="description" content="BS Quiz - 荒野乱斗知识挑战">
+    <title>BS Quiz</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+
+        <!-- ========== Page 1: Nickname Input ========== -->
+        <div class="page active" id="page-nickname">
+            <div class="header">
+                <div class="header-logo" id="header-logo">🏆</div>
+                <h1 class="header-title" id="header-title">荒野乱斗知识挑战</h1>
+                <p class="header-subtitle" id="header-subtitle">挑战你的游戏知识，赢取奖励</p>
+                <p class="header-subtitle" id="header-status" style="display:none; color: var(--danger);"></p>
+            </div>
+
+            <div class="card">
+                <div class="card-title" id="nickname-card-title">输入昵称</div>
+                <div class="form-group">
+                    <label class="form-label" id="nickname-label">你的昵称</label>
+                    <input type="text" class="form-input" id="nickname-input"
+                        placeholder="中文2-4字 或 英文4-8字母"
+                        maxlength="8" autocomplete="off">
+                    <p class="form-hint" id="nickname-hint">中文昵称2-4个字 · 英文昵称4-8个字母</p>
+                    <p class="form-error" id="nickname-error"></p>
+                </div>
+                <button class="btn btn-primary" id="btn-start" disabled>
+                    开始挑战 ⚡
+                </button>
+            </div>
+
+            <div class="footer" id="footer-info">
+                BS Quiz · 活动时间 ---
+            </div>
+        </div>
+
+        <!-- ========== Page 2: Quiz ========== -->
+        <div class="page" id="page-quiz">
+            <div class="header" style="padding: 16px 0;">
+                <h1 class="header-title" id="quiz-header-title" style="font-size: 1.2rem;">荒野乱斗知识挑战</h1>
+            </div>
+
+            <div class="progress-info">
+                <span id="quiz-progress-text">第 1 / 35 题</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="quiz-progress-fill" style="width: 0%;"></div>
+            </div>
+
+            <div class="card" id="quiz-card">
+                <!-- Question rendered dynamically -->
+            </div>
+
+            <div class="nav-buttons">
+                <button class="btn btn-secondary" id="btn-prev" style="display:none;">
+                    ← 上一题
+                </button>
+                <button class="btn btn-primary" id="btn-next">
+                    下一题 →
+                </button>
+                <button class="btn btn-success" id="btn-submit" style="display:none;">
+                    提交答卷 ✓
+                </button>
+            </div>
+        </div>
+
+        <!-- ========== Page 3: Result ========== -->
+        <div class="page" id="page-result">
+            <div class="header">
+                <h1 class="header-title" id="result-page-title">挑战完成！</h1>
+            </div>
+
+            <div class="card result-card">
+                <div class="result-icon">🎉</div>
+                <div class="result-nickname" id="result-nickname">---</div>
+                <div class="result-score" id="result-score">0</div>
+                <span class="result-score-unit" id="result-score-unit">分</span>
+                <p class="result-message" id="result-message">恭喜完成挑战！生成分享卡片可提升中奖概率</p>
+            </div>
+
+            <button class="btn btn-primary" id="btn-go-share">
+                生成分享卡片 →
+            </button>
+        </div>
+
+        <!-- ========== Page 4: Share Card ========== -->
+        <div class="page" id="page-share">
+            <div class="header">
+                <h1 class="header-title" id="share-page-title">分享卡片</h1>
+            </div>
+
+            <div class="card share-card">
+                <div class="result-nickname" id="share-nickname">---</div>
+                <div class="result-score" id="share-score" style="font-size: 2.5rem;">0</div>
+                <span class="result-score-unit" id="share-score-unit">分</span>
+
+                <div class="share-preview" id="share-preview" style="display:none;">
+                    <img id="share-image" alt="分享卡片预览">
+                </div>
+
+                <div class="share-bonus-hint" id="share-bonus-hint">
+                    💎 保存分享卡片可提升中奖概率 +20%
+                </div>
+
+                <div class="btn-group">
+                    <button class="btn btn-success" id="btn-generate-image">
+                        📸 生成图片
+                    </button>
+                    <button class="btn btn-outline" id="btn-skip-share">
+                        跳过 →
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========== Page 5: Finish ========== -->
+        <div class="page" id="page-finish">
+            <div class="header">
+                <h1 class="header-title" id="finish-page-title">挑战完成！</h1>
+            </div>
+
+            <div class="card result-card">
+                <div class="result-icon">✅</div>
+                <div class="result-nickname" id="finish-nickname">---</div>
+                <div class="result-score" id="finish-score" style="font-size: 2.5rem;">0</div>
+                <span class="result-score-unit" id="finish-score-unit">分</span>
+
+                <div class="code-section">
+                    <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 4px;" id="challenge-code-label">你的挑战码</p>
+                    <div class="code-row">
+                        <span class="challenge-code" id="finish-challenge-code" title="点击复制挑战码">------</span>
+                    </div>
+                    <p class="code-hint">点击挑战码或下方按钮复制，可反复查看</p>
+                </div>
+
+                <p style="margin-top: 12px; font-size: 0.85rem;" id="finish-shared">未分享</p>
+            </div>
+
+            <button class="btn btn-primary" id="btn-copy-code">
+                📋 复制挑战码
+            </button>
+
+            <div class="footer" id="finish-footer">
+                请妥善保存挑战码 · 每人限参与一次 · 管理员可通过挑战码验证成绩
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Hidden canvas for share image generation -->
+    <canvas id="shareCanvas"></canvas>
+    <canvas id="qr-canvas"></canvas>
+
+    <!-- Scripts - order matters: data first, then modules, then app -->
+    <script src="data/questions.js"></script>
+    <script src="js/config.js"></script>
+    <script src="js/qrcode.js"></script>
+    <script src="js/crypto.js"></script>
+    <script src="js/quiz.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>

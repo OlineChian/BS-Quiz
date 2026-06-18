@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>管理员工具 - BS Quiz</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .admin-header {
+            background: var(--bg-card);
+            border-bottom: 2px solid var(--primary);
+            padding: 12px 0;
+            margin-bottom: 16px;
+        }
+        .admin-header-inner {
+            max-width: 480px;
+            margin: 0 auto;
+            padding: 0 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .admin-badge {
+            background: var(--primary);
+            color: #fff;
+            font-size: 0.7rem;
+            font-weight: 700;
+            padding: 3px 10px;
+            border-radius: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .divider {
+            border: none;
+            border-top: 2px dashed rgba(255,255,255,0.1);
+            margin: 24px 0;
+        }
+        .batch-textarea {
+            width: 100%;
+            min-height: 120px;
+            padding: 12px 16px;
+            background: rgba(255,255,255,0.05);
+            border: 2px solid rgba(255,255,255,0.1);
+            border-radius: var(--radius);
+            color: var(--text);
+            font-size: 0.9rem;
+            font-family: 'Courier New', 'PingFang SC', 'Microsoft YaHei', monospace;
+            resize: vertical;
+            outline: none;
+            transition: var(--transition);
+            line-height: 1.8;
+        }
+        .batch-textarea:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(255,107,53,0.15);
+            background: rgba(255,255,255,0.08);
+        }
+        .batch-textarea::placeholder {
+            color: rgba(255,255,255,0.2);
+        }
+        .batch-format-hint {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-top: 4px;
+            line-height: 1.5;
+        }
+        .batch-progress {
+            font-size: 0.8rem;
+            color: var(--accent);
+            margin-top: 8px;
+            min-height: 20px;
+        }
+        .batch-result-detail {
+            font-size: 0.8rem;
+            margin-top: 8px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        .batch-result-detail .ok { color: var(--success); }
+        .batch-result-detail .fail { color: var(--danger); }
+    </style>
+</head>
+<body>
+    <div class="admin-header">
+        <div class="admin-header-inner">
+            <span style="font-size: 1.5rem;">🔧</span>
+            <span style="font-weight: 700; font-size: 1.1rem;">管理员工具</span>
+            <span class="admin-badge">Admin</span>
+        </div>
+    </div>
+
+    <div class="container">
+
+        <!-- ========== Section 1: Single Verification ========== -->
+        <div class="card admin-section">
+            <div class="card-title">单个挑战码验证</div>
+
+            <div class="form-group">
+                <label class="form-label">昵称</label>
+                <input type="text" class="form-input" id="admin-verify-nickname"
+                    placeholder="输入玩家昵称" autocomplete="off">
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">挑战码</label>
+                <input type="text" class="form-input" id="admin-verify-code"
+                    placeholder="输入挑战码" autocomplete="off">
+            </div>
+
+            <button class="btn btn-primary" id="btn-verify">
+                🔍 验证
+            </button>
+
+            <div id="verify-result" style="margin-top: 12px;"></div>
+        </div>
+
+        <hr class="divider">
+
+        <!-- ========== Section 2: Batch Import ========== -->
+        <div class="card admin-section">
+            <div class="card-title">批量导入挑战码</div>
+
+            <div class="form-group">
+                <label class="form-label">粘贴挑战码列表（每行一条）</label>
+                <textarea class="batch-textarea" id="batch-input"
+                    placeholder="格式：昵称 挑战码&#10;示例：&#10;水边皮卡 Xk92LmA8Qp&#10;Spike AbC123DeFg&#10;小明 XyZ789AbCd"></textarea>
+                <p class="batch-format-hint">
+                    📌 支持格式（每行一条）：<br>
+                    &nbsp;&nbsp;• <code>昵称 挑战码</code> （空格分隔）<br>
+                    &nbsp;&nbsp;• <code>昵称\t挑战码</code> （Tab分隔）<br>
+                    &nbsp;&nbsp;• <code>昵称|挑战码</code> （竖线分隔）<br>
+                    &nbsp;&nbsp;• <code>昵称,挑战码</code> （逗号分隔）
+                </p>
+            </div>
+
+            <button class="btn btn-primary" id="btn-batch-import">
+                📥 批量验证导入
+            </button>
+
+            <div class="batch-progress" id="batch-progress"></div>
+            <div class="batch-result-detail" id="batch-result-detail"></div>
+        </div>
+
+        <hr class="divider">
+
+        <!-- ========== Section 3: Weighted Lottery ========== -->
+        <div class="card admin-section">
+            <div class="card-title">加权抽奖</div>
+
+            <div class="form-group">
+                <label class="form-label">抽奖人数</label>
+                <input type="number" class="form-input" id="lottery-count"
+                    value="3" min="1" max="500">
+            </div>
+
+            <button class="btn btn-success" id="btn-lottery">
+                🎰 开始抽奖
+            </button>
+
+            <div id="lottery-result" style="margin-top: 16px;"></div>
+        </div>
+
+        <hr class="divider">
+
+        <!-- ========== Section 4: Participants ========== -->
+        <div class="card admin-section">
+            <div class="card-title">参与者列表 (<span id="participant-count">0</span>人)</div>
+
+            <div id="participants-list">
+                <p style="color: var(--text-muted); text-align: center; padding: 20px;">暂无参与者数据</p>
+            </div>
+
+            <div class="btn-group" style="margin-top: 16px;">
+                <button class="btn btn-secondary" id="btn-add-test">
+                    📋 添加测试数据
+                </button>
+                <button class="btn btn-secondary" id="btn-export-csv">
+                    📤 导出CSV
+                </button>
+                <button class="btn btn-outline" id="btn-clear-data" style="color: var(--danger); border-color: rgba(231,76,60,0.3);">
+                    🗑 清除数据
+                </button>
+            </div>
+        </div>
+
+        <div class="footer">
+            管理员页面 · 数据存储在浏览器本地
+        </div>
+
+    </div>
+
+    <!-- Admin doesn't need questions, only config + crypto + admin -->
+    <script src="js/config.js"></script>
+    <script src="js/crypto.js"></script>
+    <script src="js/admin.js"></script>
+</body>
+</html>
