@@ -29,7 +29,7 @@ const QUESTIONS = [
         "type": "single",
         "title": "英雄'格尔'的稀有度是？",
         "options": ["超稀有", "史诗", "神话", "传奇"],
-        "answer": 2,
+        "answer": 1,
         "score": 2
     },
     {
